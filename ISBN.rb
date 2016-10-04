@@ -1,20 +1,49 @@
 def ten(isbn)
     isbn.is_a? String
     isbn = isbn.delete("-")
-    #raise No10DigitISBNAvailable if isbn =~ /^979/
+  
     case isbn.size
     	when 10 then isbn = isbn[0..9]
     		true
     
     	when 13 then isbn = isbn[0..12]
-    #else raise Invalid10DigitISBN
+ 
     	true
     end
-    # case ck = (11 - (isbn.split(//).zip((2..10).to_a.reverse).inject(0) {|s,n| s += n[0].to_i * n[1]} % 11))
-    # when 10 then isbn << "X"
-    # when 11 then isbn << "0"
-    # else isbn << ck.to_s
-    # end
+
 end
 
-#ten("0-321-14653-0")
+def ck_ten(isbn)  
+    #puts isbn = isbn.delete("-")
+    #"1,2,3,4".split(",").map(&:to_i)
+
+
+    #puts ck = isbn.split("").map(&:to_i)
+    isbn = isbn.scan /\w/
+    isbn = isbn[0..9]
+    sum = 0
+
+    isbn.each_with_index do |s,n| 
+
+        sum = sum + ((n+1).to_i * s.to_i)
+    end
+
+        
+    ck  = sum % 11 
+    if ck == 10  
+            isbn << "X"
+            digit = "X"
+            
+    elsif ck == 0 
+            isbn << "0"
+            #puts isbn
+            digit = "0"
+    else isbn << ck.to_s
+    end
+
+    digit
+
+end
+
+
+ck_ten("877195869")
